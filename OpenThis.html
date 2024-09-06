@@ -1,0 +1,55 @@
+<htlm>
+<body style= "background: -webkit-linear-gradient(orange, red);">
+<img id="hond" style="position:absolute; width:50px; top:500px; left:300px;
+-webkit-transition: all 0.2s;"src="hond.png">
+<img id="bot" style="position:absolute; width:50px; top:0px; left:0px;
+-webkit-transition: all 0.2s;"src="bot.png">
+<p id="scoreTB" style="position:absolute; left:50px; color:yellow;
+font-size:28px;font-family:Arial;">Score:0</p>
+   <p id="livesTB" style="position:absolute; right:50px; color:yellow;
+font-size:28px;font-family:Arial;">Levens:3</p>
+</body>
+<script>
+alert('Copyright KH')
+  var score=0, lives=3, hondX=6, hondY=20, botX=8, botY=0
+  function setLeft(id,x){document.getElementById(id).style.left=x+"px";}
+  function setTop(id,y){document.getElementById(id).style.top=y+"px";} // verander x naar y
+  function RandomNumber(low,high){return (Math.floor(low+Math.random()*(1+high-low)));}
+  var gameTimer=window.setInterval(moveBone, 200);
+  document.onkeydown=handleKeys;
+  function handleKeys(e){
+    if(e.keyCode==37 && hondX > 0){hondX--;} // linker pijltoets
+    if(e.keyCode==39 && hondX < 32){hondX++;} // rechter pijltoets
+    if(e.keyCode==38 && hondY > 0){hondY--;} // omhoog pijltoets
+    if(e.keyCode==40 && hondY < 2){hondY++;} // omlaag pijltoets
+    setLeft("hond",hondX*50);
+    setTop("hond",hondY*50);
+  }
+  function moveBone(){
+    botY=botY+=1;
+    setLeft("bot",botX*50);
+    setTop("bot",botY*50);
+    if(botY>hondY+5){missedBone();}
+    if((hondX==botX) && (hondY==botY)){caughtBone();}
+  }
+  function missedBone(){
+    botY=0;
+    botX=RandomNumber (2, 32);
+    lives--;
+    document.getElementById("livesTB").innerText="Levens: "+lives;
+    if(lives==0){gameOver();}
+  }
+  function caughtBone(){
+    botY=0;
+    botX=RandomNumber (2, 32);
+    score++;
+    document.getElementById("scoreTB").innerText="Score: "+score;
+    if(lives==0){gameOver();}
+  }
+  function gameOver(){
+    alert("GAME OVER! Jou score:"+score);
+    location.reload();
+    }
+</script>
+
+</html>
